@@ -79,46 +79,48 @@ def configurar_driver():
     
 
 def obtener_urls_productos(df_for_search):
-    with configurar_driverb() as driver:
-        urls_productos = {"nombre": [], "url": []}
+    urls_productos = {"nombre": [], "url": []}
 
-        for model in df_for_search.head(5):  # Solo toma los primeros 5 productos como ejemplo
-            encoded_model = codificar_modelo(model)
-            base_url = "https://www.backmarket.es/es-es/search?q="
-            enlace = f"{base_url}{encoded_model}"
+    driver = configurar_driverb()
 
-            for intento in range(2):  # Intentar abrir la URL dos veces
-                try:
-                    driver.execute_script(f"window.open('{enlace}', '_blank')")
-                    time.sleep(5)
-                    driver.switch_to.window(driver.window_handles[-1])
+    for model in df_for_search.head(5):  # Solo toma los primeros 5 productos como ejemplo
+        encoded_model = codificar_modelo(model)
+        base_url = "https://www.backmarket.es/es-es/search?q="
+        enlace = f"{base_url}{encoded_model}"
 
-                    aceptar_cookies_btn = WebDriverWait(driver, 2).until(
-                        EC.visibility_of_element_located((By.XPATH, '//*[@id="__nuxt"]/div/div[3]/div/div[2]/section/div/div/div[2]/button[3]/div/span'))
-                    )
-                    aceptar_cookies_btn.click()
-                    break  # Si se abre correctamente, romper el bucle de reintentos
-                except Exception as e:
-                    logging.warning(f"Error al intentar abrir la URL {enlace}: {e}")
-                    if intento == 1:  # Si es el último intento, registrar el error
-                        logging.error(f"No se pudo abrir la URL {enlace} tras dos intentos")
-
+        for intento in range(2):  # Intentar abrir la URL dos veces
             try:
-                WebDriverWait(driver, 2).until(
-                    EC.presence_of_all_elements_located((By.CSS_SELECTOR, "a[href^='/es-es/p/']"))
+                driver.execute_script(f"window.open('{enlace}', '_blank')")
+                time.sleep(5)
+                driver.switch_to.window(driver.window_handles[-1])
+
+                aceptar_cookies_btn = WebDriverWait(driver, 2).until(
+                    EC.visibility_of_element_located((By.XPATH, '//*[@id="__nuxt"]/div/div[3]/div/div[2]/section/div/div/div[2]/button[3]/div/span'))
                 )
-                primer_producto = driver.find_element(By.CSS_SELECTOR, "a[href^='/es-es/p/']")
-                url = primer_producto.get_attribute("href")
-
-                urls_productos["nombre"].append(model)
-                urls_productos["url"].append(url)
+                aceptar_cookies_btn.click()
+                break  # Si se abre correctamente, romper el bucle de reintentos
             except Exception as e:
-                logging.warning(f"No se encontraron productos para el modelo {model}. Error: {e}")
+                logging.warning(f"Error al intentar abrir la URL {enlace}: {e}")
+                if intento == 1:  # Si es el último intento, registrar el error
+                    logging.error(f"No se pudo abrir la URL {enlace} tras dos intentos")
 
-            driver.close()
-            driver.switch_to.window(driver.window_handles[0])
+        try:
+            WebDriverWait(driver, 2).until(
+                EC.presence_of_all_elements_located((By.CSS_SELECTOR, "a[href^='/es-es/p/']"))
+            )
+            primer_producto = driver.find_element(By.CSS_SELECTOR, "a[href^='/es-es/p/']")
+            url = primer_producto.get_attribute("href")
 
-    return pd.DataFrame(urls_productos)
+            urls_productos["nombre"].append(model)
+            urls_productos["url"].append(url)
+        except Exception as e:
+            logging.warning(f"No se encontraron productos para el modelo {model}. Error: {e}")
+
+        driver.close()
+        driver.switch_to.window(driver.window_handles[0])
+
+    driver.quit()
+    return 
 
 
 # Función para calcular la mediana por modelo
