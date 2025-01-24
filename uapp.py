@@ -67,15 +67,13 @@ def configurar_driverb():
     options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36")
 
 
-
-
     google_chrome_bin = os.getenv('GOOGLE_CHROME_BIN', None)
     if google_chrome_bin:
         options.binary_location = google_chrome_bin
 
     service = Service(ChromeDriverManager().install())
     driver = webdriver.Chrome(service=service, options=options)
-    return 
+    return driver
 
 def configurar_driver():
     options = uc.ChromeOptions()
