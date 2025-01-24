@@ -77,8 +77,6 @@ def configurar_driver():
     driver = uc.Chrome(options=options)
     return driver
     
-    service = Service(ChromeDriverManager().install())
-    return webdriver.Chrome(service=service, options=options)
 
 def obtener_urls_productos(df_for_search):
     with configurar_driverb() as driver:
