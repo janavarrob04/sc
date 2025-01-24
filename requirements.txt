@@ -1,6 +1,6 @@
-streamlit
-pandas
-selenium
-beautifulsoup4
-webdriver-manager
-difflib
+streamlit==1.41.1
+pandas==2.2.3
+selenium==4.28.1
+beautifulsoup4==4.12.3
+webdriver-manager==4.0.2
+undetected-chromedriver==3.5.0
