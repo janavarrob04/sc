@@ -69,11 +69,13 @@ def configurar_driverb():
 
 
 
+
     google_chrome_bin = os.getenv('GOOGLE_CHROME_BIN', None)
     if google_chrome_bin:
         options.binary_location = google_chrome_bin
 
-    driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
+    service = Service(ChromeDriverManager().install())
+    driver = webdriver.Chrome(service=service, options=options)
     return 
 
 def configurar_driver():
