@@ -15,7 +15,6 @@ from urllib.parse import quote
 from bs4 import BeautifulSoup
 from webdriver_manager.chrome import ChromeDriverManager
 import logging
-import undetected_chromedriver as uc
 import os
 
 # Configuración de logging
