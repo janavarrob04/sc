@@ -1,5 +1,6 @@
-pandas
 streamlit
+pandas
 selenium
 beautifulsoup4
 webdriver-manager
+difflib
