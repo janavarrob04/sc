@@ -51,29 +51,13 @@ def codificar_modelo(model):
 
 
 def configurar_driverb():
-    options = uc.ChromeOptions()
-    options.add_argument("--disable-gpu")
-    options.add_argument("--no-sandbox")
-    options.add_argument("--disable-extensions")
-    options.add_argument("--disable-logging")
-    options.add_argument("--log-level=3")
-    options.add_argument("--disable-infobars")
-    options.add_argument("--disable-browser-side-navigation")
-    options.add_argument("--disable-dev-shm-usage")
-    options.add_argument("--disable-blink-features=AutomationControlled")
-    options.add_experimental_option("excludeSwitches", ["enable-automation"])
-    options.add_experimental_option("useAutomationExtension", False)
-    options.add_argument("start-maximized")
-    options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36")
+    chrome_options = Options()
+    chrome_options.add_argument("--headless")  # Modo sin interfaz gráfica
+    chrome_options.add_argument("--no-sandbox")
+    chrome_options.add_argument("--disable-dev-shm-usage")
 
 
-    google_chrome_bin = os.getenv('GOOGLE_CHROME_BIN', None)
-    if google_chrome_bin:
-        options.binary_location = google_chrome_bin
-
-    service = Service(ChromeDriverManager().install())
-    driver = webdriver.Chrome(service=service, options=options)
-    return driver
+    driver = webdriver.Chrome(options=chrome_options)
 
 def configurar_driver():
     options = uc.ChromeOptions()
@@ -81,7 +65,7 @@ def configurar_driver():
     options.add_argument("--disable-gpu")
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
-    driver = uc.Chrome(options=options)
+    driver = webdriver.Chrome(options=chrome_options)
     return driver
     
 
