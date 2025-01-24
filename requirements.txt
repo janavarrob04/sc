@@ -3,4 +3,3 @@ pandas
 selenium
 beautifulsoup4
 webdriver-manager
-!/bin/bash setup.sh
