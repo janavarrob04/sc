@@ -8,7 +8,7 @@ from sentence_transformers import SentenceTransformer
 from weaviate.classes.init import Auth
 
 # Configura tu API Key de OpenAI
-openai.api_key = "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"  # Asegúrate de manejar la API Key de forma segura
+openai.api_key = "sk-proj-oXrYPVa7cwe7J9t_hKMqwsyRooaAmyFq1158WSeEKxNCZbp_aAA"  # Asegúrate de manejar la API Key de forma segura
 
 # Best practice: store your credentials in environment variables
 weaviate_url = os.environ["WEAVIATE_URL"]  # Ahora estás buscando "WEAVIATE_URL"
